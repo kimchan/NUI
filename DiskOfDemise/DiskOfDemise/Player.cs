@@ -21,5 +21,22 @@ namespace DiskOfDemise
             bodyParts.Add("rightLeg");
             bodyParts.Add("leftLeg");
         }
+
+        public void removeLimb(String limb)
+        {
+            if (bodyParts.IndexOf(limb) != -1)
+            {
+                bodyParts.Remove(limb);
+            }
+        }
+
+        public void showBodyParts()
+        {
+            Console.WriteLine(color);
+            for(int i = 0; i < bodyParts.Count; i++)
+            {
+                Console.WriteLine(bodyParts[i]);
+            }
+        }
     }
 }
