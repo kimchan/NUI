@@ -129,5 +129,10 @@ namespace DiskOfDemise
                 return false;
             }
         }
+
+        public String displayPhrase()
+        {
+            return displayedPhrase.ToString();
+        }
     }
 }
