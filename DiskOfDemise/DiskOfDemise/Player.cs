@@ -38,5 +38,10 @@ namespace DiskOfDemise
                 Console.WriteLine(bodyParts[i]);
             }
         }
+
+        public String returnColor()
+        {
+            return color;
+        }
     }
 }

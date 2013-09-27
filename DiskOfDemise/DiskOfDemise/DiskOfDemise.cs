@@ -30,10 +30,10 @@ namespace DiskOfDemise
         //Add players to arrayList
         public void addPlayers()
         {
-            player0 = new Player("yellow");
-            player1 = new Player("red");
-            player2 = new Player("blue");
-            player3 = new Player("green");
+            player0 = new Player("Yellow");
+            player1 = new Player("Red");
+            player2 = new Player("Blue");
+            player3 = new Player("Green");
 
             Players.Add(player0);
             Players.Add(player1);
@@ -45,7 +45,7 @@ namespace DiskOfDemise
 
         public void addPhrases()
         {
-            phrases.Add("HELLO WORLD");
+            phrases.Add("H E L L O   W O R L D   S U N S H I N E");
            // phrases.Add("The cat in the hat");
            // phrases.Add("What would you do for a Klondike Bar");
            // phrases.Add("Good morning sunshine");
@@ -133,6 +133,11 @@ namespace DiskOfDemise
         public String displayPhrase()
         {
             return displayedPhrase.ToString();
+        }
+
+        public String displayName()
+        {
+            return currentPlayer.returnColor();
         }
     }
 }
