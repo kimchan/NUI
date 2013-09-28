@@ -32,6 +32,12 @@
             this.phraseLabel = new System.Windows.Forms.Label();
             this.nameLabel = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.rightLegShape = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.leftLegShape = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.rightArmShape = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.leftArmShape = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.bodyShape = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.headShape = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.SuspendLayout();
@@ -51,9 +57,45 @@
             resources.ApplyResources(this.shapeContainer1, "shapeContainer1");
             this.shapeContainer1.Name = "shapeContainer1";
             this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.rightLegShape,
+            this.leftLegShape,
+            this.rightArmShape,
+            this.leftArmShape,
+            this.bodyShape,
+            this.headShape,
             this.lineShape2,
             this.lineShape1});
             this.shapeContainer1.TabStop = false;
+            // 
+            // rightLegShape
+            // 
+            resources.ApplyResources(this.rightLegShape, "rightLegShape");
+            this.rightLegShape.Name = "lineShape3";
+            // 
+            // leftLegShape
+            // 
+            resources.ApplyResources(this.leftLegShape, "leftLegShape");
+            this.leftLegShape.Name = "lineShape3";
+            // 
+            // rightArmShape
+            // 
+            resources.ApplyResources(this.rightArmShape, "rightArmShape");
+            this.rightArmShape.Name = "lineShape3";
+            // 
+            // leftArmShape
+            // 
+            resources.ApplyResources(this.leftArmShape, "leftArmShape");
+            this.leftArmShape.Name = "lineShape3";
+            // 
+            // bodyShape
+            // 
+            resources.ApplyResources(this.bodyShape, "bodyShape");
+            this.bodyShape.Name = "lineShape3";
+            // 
+            // headShape
+            // 
+            resources.ApplyResources(this.headShape, "headShape");
+            this.headShape.Name = "ovalShape1";
             // 
             // lineShape2
             // 
@@ -86,6 +128,12 @@
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape2;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+        private Microsoft.VisualBasic.PowerPacks.OvalShape headShape;
+        private Microsoft.VisualBasic.PowerPacks.LineShape bodyShape;
+        private Microsoft.VisualBasic.PowerPacks.LineShape leftArmShape;
+        private Microsoft.VisualBasic.PowerPacks.LineShape rightArmShape;
+        private Microsoft.VisualBasic.PowerPacks.LineShape leftLegShape;
+        private Microsoft.VisualBasic.PowerPacks.LineShape rightLegShape;
         
     }
 }

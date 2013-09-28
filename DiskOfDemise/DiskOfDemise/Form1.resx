@@ -126,10 +126,10 @@
     <value>Microsoft Sans Serif, 40pt</value>
   </data>
   <data name="phraseLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 277</value>
+    <value>3, 299</value>
   </data>
   <data name="phraseLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>806, 89</value>
+    <value>1500, 82</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="phraseLabel.TabIndex" type="System.Int32, mscorlib">
@@ -157,16 +157,16 @@
     <value>Microsoft Sans Serif, 18pt</value>
   </data>
   <data name="nameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>75, 181</value>
+    <value>74, 183</value>
   </data>
   <data name="nameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 27</value>
+    <value>266, 27</value>
   </data>
   <data name="nameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
   <data name="nameLabel.Text" xml:space="preserve">
-    <value>Player Red</value>
+    <value>Player</value>
   </data>
   <data name="&gt;&gt;nameLabel.Name" xml:space="preserve">
     <value>nameLabel</value>
@@ -186,11 +186,143 @@
   <data name="shapeContainer1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
+  <metadata name="rightLegShape.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>160, 380, 52, 66</value>
+  </metadata>
+  <metadata name="rightLegShape.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>160, 380</value>
+  </metadata>
+  <metadata name="rightLegShape.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>52, 66</value>
+  </metadata>
+  <data name="rightLegShape.BorderWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rightLegShape.X1" type="System.Int32, mscorlib">
+    <value>160</value>
+  </data>
+  <data name="rightLegShape.X2" type="System.Int32, mscorlib">
+    <value>212</value>
+  </data>
+  <data name="rightLegShape.Y1" type="System.Int32, mscorlib">
+    <value>380</value>
+  </data>
+  <data name="rightLegShape.Y2" type="System.Int32, mscorlib">
+    <value>446</value>
+  </data>
+  <metadata name="leftLegShape.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>113, 380, 45, 66</value>
+  </metadata>
+  <metadata name="leftLegShape.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>113, 380</value>
+  </metadata>
+  <metadata name="leftLegShape.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>45, 66</value>
+  </metadata>
+  <data name="leftLegShape.BorderWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="leftLegShape.X1" type="System.Int32, mscorlib">
+    <value>113</value>
+  </data>
+  <data name="leftLegShape.X2" type="System.Int32, mscorlib">
+    <value>158</value>
+  </data>
+  <data name="leftLegShape.Y1" type="System.Int32, mscorlib">
+    <value>446</value>
+  </data>
+  <data name="leftLegShape.Y2" type="System.Int32, mscorlib">
+    <value>380</value>
+  </data>
+  <metadata name="rightArmShape.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 236, 58, 43</value>
+  </metadata>
+  <metadata name="rightArmShape.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 236</value>
+  </metadata>
+  <metadata name="rightArmShape.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>58, 43</value>
+  </metadata>
+  <data name="rightArmShape.BorderWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="rightArmShape.X1" type="System.Int32, mscorlib">
+    <value>159</value>
+  </data>
+  <data name="rightArmShape.X2" type="System.Int32, mscorlib">
+    <value>217</value>
+  </data>
+  <data name="rightArmShape.Y1" type="System.Int32, mscorlib">
+    <value>279</value>
+  </data>
+  <data name="rightArmShape.Y2" type="System.Int32, mscorlib">
+    <value>236</value>
+  </data>
+  <metadata name="leftArmShape.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>96, 228, 64, 51</value>
+  </metadata>
+  <metadata name="leftArmShape.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>96, 228</value>
+  </metadata>
+  <metadata name="leftArmShape.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>64, 51</value>
+  </metadata>
+  <data name="leftArmShape.BorderWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="leftArmShape.X1" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="leftArmShape.X2" type="System.Int32, mscorlib">
+    <value>160</value>
+  </data>
+  <data name="leftArmShape.Y1" type="System.Int32, mscorlib">
+    <value>228</value>
+  </data>
+  <data name="leftArmShape.Y2" type="System.Int32, mscorlib">
+    <value>279</value>
+  </data>
+  <metadata name="bodyShape.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 180, 0, 200</value>
+  </metadata>
+  <metadata name="bodyShape.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 180</value>
+  </metadata>
+  <metadata name="bodyShape.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>0, 200</value>
+  </metadata>
+  <data name="bodyShape.BorderWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="bodyShape.X1" type="System.Int32, mscorlib">
+    <value>159</value>
+  </data>
+  <data name="bodyShape.X2" type="System.Int32, mscorlib">
+    <value>159</value>
+  </data>
+  <data name="bodyShape.Y1" type="System.Int32, mscorlib">
+    <value>180</value>
+  </data>
+  <data name="bodyShape.Y2" type="System.Int32, mscorlib">
+    <value>380</value>
+  </data>
+  <data name="headShape.BorderColor" type="System.Drawing.Color, System.Drawing">
+    <value>Black</value>
+  </data>
+  <data name="headShape.BorderWidth" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="headShape.Location" type="System.Drawing.Point, System.Drawing">
+    <value>106, 71</value>
+  </data>
+  <data name="headShape.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 108</value>
+  </data>
   <metadata name="lineShape2.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>327, -1000, 0, 1200</value>
+    <value>350, -955, 0, 1200</value>
   </metadata>
   <metadata name="lineShape2.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>327, -1000</value>
+    <value>350, -955</value>
   </metadata>
   <metadata name="lineShape2.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>0, 1200</value>
@@ -199,22 +331,22 @@
     <value>Bottom, Left</value>
   </data>
   <data name="lineShape2.X1" type="System.Int32, mscorlib">
-    <value>327</value>
+    <value>350</value>
   </data>
   <data name="lineShape2.X2" type="System.Int32, mscorlib">
-    <value>327</value>
+    <value>350</value>
   </data>
   <data name="lineShape2.Y1" type="System.Int32, mscorlib">
-    <value>-1000</value>
+    <value>-955</value>
   </data>
   <data name="lineShape2.Y2" type="System.Int32, mscorlib">
-    <value>200</value>
+    <value>245</value>
   </data>
   <metadata name="lineShape1.Bounds" type="System.Drawing.Rectangle, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>-13, 200, 2007, 0</value>
+    <value>-13, 245, 2007, 0</value>
   </metadata>
   <metadata name="lineShape1.Location" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>-13, 200</value>
+    <value>-13, 245</value>
   </metadata>
   <metadata name="lineShape1.Size" type="System.Drawing.Size, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>2007, 0</value>
@@ -229,13 +361,13 @@
     <value>1994</value>
   </data>
   <data name="lineShape1.Y1" type="System.Int32, mscorlib">
-    <value>200</value>
+    <value>245</value>
   </data>
   <data name="lineShape1.Y2" type="System.Int32, mscorlib">
-    <value>200</value>
+    <value>245</value>
   </data>
   <data name="shapeContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>530, 361</value>
+    <value>696, 406</value>
   </data>
   <data name="shapeContainer1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -259,13 +391,49 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>530, 361</value>
+    <value>696, 406</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>6, 6, 6, 6</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Disk Of Demise</value>
+  </data>
+  <data name="&gt;&gt;rightLegShape.Name" xml:space="preserve">
+    <value>rightLegShape</value>
+  </data>
+  <data name="&gt;&gt;rightLegShape.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.PowerPacks.LineShape, Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;leftLegShape.Name" xml:space="preserve">
+    <value>leftLegShape</value>
+  </data>
+  <data name="&gt;&gt;leftLegShape.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.PowerPacks.LineShape, Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;rightArmShape.Name" xml:space="preserve">
+    <value>rightArmShape</value>
+  </data>
+  <data name="&gt;&gt;rightArmShape.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.PowerPacks.LineShape, Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;leftArmShape.Name" xml:space="preserve">
+    <value>leftArmShape</value>
+  </data>
+  <data name="&gt;&gt;leftArmShape.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.PowerPacks.LineShape, Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;bodyShape.Name" xml:space="preserve">
+    <value>bodyShape</value>
+  </data>
+  <data name="&gt;&gt;bodyShape.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.PowerPacks.LineShape, Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="&gt;&gt;headShape.Name" xml:space="preserve">
+    <value>headShape</value>
+  </data>
+  <data name="&gt;&gt;headShape.Type" xml:space="preserve">
+    <value>Microsoft.VisualBasic.PowerPacks.OvalShape, Microsoft.VisualBasic.PowerPacks.Vs, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="&gt;&gt;lineShape2.Name" xml:space="preserve">
     <value>lineShape2</value>

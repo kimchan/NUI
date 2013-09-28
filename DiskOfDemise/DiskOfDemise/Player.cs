@@ -15,11 +15,11 @@ namespace DiskOfDemise
         public Player(String color)
         {
             this.color = color;
-            bodyParts.Add("head");
-            bodyParts.Add("rightArm");
-            bodyParts.Add("leftArm");
-            bodyParts.Add("rightLeg");
-            bodyParts.Add("leftLeg");
+            bodyParts.Add("Head");
+            bodyParts.Add("RightArm");
+            bodyParts.Add("LeftArm");
+            bodyParts.Add("RightLeg");
+            bodyParts.Add("LeftLeg");
         }
 
         public void removeLimb(String limb)
@@ -30,18 +30,14 @@ namespace DiskOfDemise
             }
         }
 
-        public void showBodyParts()
-        {
-            Console.WriteLine(color);
-            for(int i = 0; i < bodyParts.Count; i++)
-            {
-                Console.WriteLine(bodyParts[i]);
-            }
-        }
-
         public String returnColor()
         {
             return color;
+        }
+
+        public ArrayList returnBodyParts()
+        {
+            return bodyParts;
         }
     }
 }

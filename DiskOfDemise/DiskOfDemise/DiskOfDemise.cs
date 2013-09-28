@@ -87,14 +87,13 @@ namespace DiskOfDemise
             if (!correctGuess)
             {
                 //Lose Limb
-                currentPlayer.removeLimb("head");
+                currentPlayer.removeLimb("Head");
             }
             else
             {
                 correctGuess = false;
             }
 
-            currentPlayer.showBodyParts();
             Console.WriteLine(displayedPhrase);
             if (!checkEndGame())
             {
@@ -105,6 +104,7 @@ namespace DiskOfDemise
                     playerIndex = 0;
                 }
                 currentPlayer = (Player) Players[playerIndex];
+                Console.WriteLine(displayName());
             }
         }
 
@@ -138,6 +138,11 @@ namespace DiskOfDemise
         public String displayName()
         {
             return currentPlayer.returnColor();
+        }
+
+        public ArrayList returnBodyParts()
+        {
+            return currentPlayer.returnBodyParts();
         }
     }
 }
