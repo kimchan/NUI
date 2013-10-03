@@ -14,22 +14,54 @@ namespace DiskOfDemise
     public partial class Form1 : Form
     {
         DiskOfDemise d1;
+        BitmapImage bitmap1;
+
         public Form1()
         {
             InitializeComponent();
+            d1 = new DiskOfDemise();
+            bitmap1 = new BitmapImage();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            d1 = new DiskOfDemise();
-            d1.checkLetterInPhrase('d');
-            d1.checkLetterInPhrase('d');
-            d1.checkLetterInPhrase('d');
-            d1.checkLetterInPhrase('s');
-            d1.checkLetterInPhrase('d');
+            d1.checkLetterInPhrase('H');
+            d1.checkLetterInPhrase('O');
+
+
+            clearBodyParts();
             phraseLabel.Text = d1.displayPhrase();
             nameLabel.Text = "Player " + d1.displayName();
             displayBodyParts();
+            colorBodyParts(d1.displayName());
+        }
+
+        private void colorBodyParts(String color)
+        {
+            Color bodyColor = Color.Black;
+            if (color.Equals("Red"))
+            {
+                bodyColor = Color.Red;
+            }
+            else if (color.Equals("Yellow"))
+            {
+                bodyColor = Color.Yellow;
+            }
+            else if (color.Equals("Green"))
+            {
+                bodyColor = Color.Green;
+            }
+            else if (color.Equals("Blue"))
+            {
+                bodyColor = Color.Blue;
+            }
+
+            headShape.BorderColor = bodyColor;
+            rightArmShape.BorderColor = bodyColor;
+            leftArmShape.BorderColor = bodyColor;
+            rightLegShape.BorderColor = bodyColor;
+            leftLegShape.BorderColor = bodyColor;
+            bodyShape.BorderColor = bodyColor;
         }
 
         private void clearBodyParts()
