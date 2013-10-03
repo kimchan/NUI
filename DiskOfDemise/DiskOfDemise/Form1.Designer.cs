@@ -40,6 +40,8 @@
             this.headShape = new Microsoft.VisualBasic.PowerPacks.OvalShape();
             this.lineShape2 = new Microsoft.VisualBasic.PowerPacks.LineShape();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.wheelImage = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.wheelImage)).BeginInit();
             this.SuspendLayout();
             // 
             // phraseLabel
@@ -107,16 +109,24 @@
             resources.ApplyResources(this.lineShape1, "lineShape1");
             this.lineShape1.Name = "lineShape1";
             // 
+            // wheelImage
+            // 
+            resources.ApplyResources(this.wheelImage, "wheelImage");
+            this.wheelImage.Name = "wheelImage";
+            this.wheelImage.TabStop = false;
+            // 
             // Form1
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.wheelImage);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.phraseLabel);
             this.Controls.Add(this.shapeContainer1);
             this.Name = "Form1";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.wheelImage)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -134,6 +144,7 @@
         private Microsoft.VisualBasic.PowerPacks.LineShape rightArmShape;
         private Microsoft.VisualBasic.PowerPacks.LineShape leftLegShape;
         private Microsoft.VisualBasic.PowerPacks.LineShape rightLegShape;
+        private System.Windows.Forms.PictureBox wheelImage;
         
     }
 }

@@ -14,20 +14,21 @@ namespace DiskOfDemise
     public partial class Form1 : Form
     {
         DiskOfDemise d1;
-        BitmapImage bitmap1;
+        Bitmap bitmap1;
 
         public Form1()
         {
             InitializeComponent();
             d1 = new DiskOfDemise();
-            bitmap1 = new BitmapImage();
+            bitmap1 = (Bitmap)Bitmap.FromFile(@"C:\Users\Kim\Documents\GitHub\NUI\DiskOfDemise\DiskOfDemise\Resources\RedHead.png");
+            wheelImage.Image = bitmap1;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             d1.checkLetterInPhrase('H');
             d1.checkLetterInPhrase('O');
-
+            bitmap1.RotateFlip(RotateFlipType.Rotate180FlipX);
 
             clearBodyParts();
             phraseLabel.Text = d1.displayPhrase();
@@ -35,6 +36,8 @@ namespace DiskOfDemise
             displayBodyParts();
             colorBodyParts(d1.displayName());
         }
+
+
 
         private void colorBodyParts(String color)
         {
