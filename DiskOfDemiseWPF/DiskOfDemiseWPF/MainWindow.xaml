@@ -17,6 +17,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <Image Name = "kinectColorImage" HorizontalAlignment="Left" Height="455" Margin="10,10,0,0" VerticalAlignment="Top" Width="378"/>
 
     </Grid>
 </Window>

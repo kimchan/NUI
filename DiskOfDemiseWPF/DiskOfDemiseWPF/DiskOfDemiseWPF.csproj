@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{91DF8830-D9B5-49EF-ACCE-D7AC426A9202}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DiskOfDemiseWPF</RootNamespace>
     <AssemblyName>DiskOfDemiseWPF</AssemblyName>
@@ -33,7 +33,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Kinect, Version=1.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -63,6 +67,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DiskOfDemiseGame.cs" />
+    <Compile Include="GestureService\EventArguments\GestureEventArgs.cs" />
+    <Compile Include="GestureService\Gesture\Gesture.cs" />
+    <Compile Include="GestureService\Gesture\GestureController.cs" />
+    <Compile Include="GestureService\Gesture\Parts\GestureSegment.cs" />
+    <Compile Include="GestureService\Gesture\Parts\SwipeLeft\SwipeLeftSegment1.cs" />
+    <Compile Include="GestureService\Gesture\Parts\SwipeLeft\SwipeLeftSegment2.cs" />
+    <Compile Include="GestureService\Gesture\Parts\SwipeLeft\SwipeLeftSegment3.cs" />
+    <Compile Include="GestureService\Gesture\Parts\SwipeRight\SwipeRightSegment1.cs" />
+    <Compile Include="GestureService\Gesture\Parts\SwipeRight\SwipeRightSegment2.cs" />
+    <Compile Include="GestureService\Gesture\Parts\SwipeRight\SwipeRightSegment3.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -98,6 +112,17 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\wheelPic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="KinectManagement">
+      <Guid>{B167C0CB-E5E7-40FC-BA4E-6711286A2FDE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
