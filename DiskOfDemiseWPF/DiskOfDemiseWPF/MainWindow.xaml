@@ -3,11 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="700" Width="1000">
     <Grid>
-        <Label Name ="phraseLabel" Content="Label" HorizontalAlignment="Left" Margin="0,544,0,0" VerticalAlignment="Top" Width="992" Height="126" FontSize="72"/>
+        <TextBlock Name ="phraseLabel" Text ="Label" HorizontalAlignment="Left" Margin="0,544,0,0" VerticalAlignment="Top" Width="992" Height="126" FontSize="72"/>
         <Rectangle HorizontalAlignment="Left" Height="16" Margin="0,523,0,0" Stroke="#00000000" VerticalAlignment="Top" Width="992" Fill="Black"/>
-        <Label Name ="nameLabel" Content="Label" HorizontalAlignment="Left" Margin="0,465,0,0" VerticalAlignment="Top" Width="393" FontSize="36"/>
+        <TextBlock Name ="nameLabel" Text="Label" HorizontalAlignment="Left" Margin="0,465,0,0" VerticalAlignment="Top" Width="393" FontSize="36"/>
         <Rectangle HorizontalAlignment="Left" Height="539" Margin="393,0,0,0" Stroke="#00000000" VerticalAlignment="Top" Width="18" Fill="Black"/>
-        <Image Name = "wheelPicture" HorizontalAlignment="Left" Height="433" Margin="476,59,0,0" VerticalAlignment="Top" Width="478" Source="/DiskOfDemiseWPF;component/Resources/wheelPic.png" RenderTransformOrigin="0.5,0.5"/>
+        <Image Name = "wheelPicture" HorizontalAlignment="Left" Height="433" Margin="476,59,0,0" VerticalAlignment="Top" Width="478" Source="/DiskOfDemiseWPF;component/Resources/wheelPic.png" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
 
     </Grid>
 </Window>

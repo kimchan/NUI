@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -21,25 +22,42 @@ namespace DiskOfDemiseWPF
     public partial class MainWindow : Window
     {
         DiskOfDemiseGame d1;
-        //BitmapImage b1;
+        private Storyboard myStoryboard;
 
         public MainWindow()
         {
             d1 = new DiskOfDemiseGame();
-            //b1 = new BitmapImage();
 
             InitializeComponent();
+            reset();
+
+            //wheelPicture.RenderTransform = new RotateTransform(5);
+
+            spinWheel(1000);
             
-            /*b1.BeginInit();
-            b1.UriSource = new Uri("wheelPic.png", UriKind.Relative);
-            b1.EndInit();
+        }
 
-            wheelPicture.Source = b1;*/
+        public void reset()
+        {
+            phraseLabel.Text = d1.displayPhrase();
+            nameLabel.Text = " Player " + d1.displayName();
+        }
 
-            wheelPicture.RenderTransform = new RotateTransform(5);
+        public void spinWheel(double addedAngle)
+        {
+            wheelPicture.RenderTransform = new RotateTransform();
 
-            phraseLabel.Content = d1.displayPhrase();
-            nameLabel.Content = "Player " + d1.displayName();
+            double currentAngle = ((RotateTransform) wheelPicture.RenderTransform).Angle;
+           
+            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
+            myDoubleAnimation.From = currentAngle;
+            myDoubleAnimation.To = currentAngle+addedAngle;
+            myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(8));
+
+            myStoryboard = new Storyboard();
+            myStoryboard.Children.Add(myDoubleAnimation);
+
+            ((RotateTransform) wheelPicture.RenderTransform).BeginAnimation(RotateTransform.AngleProperty, myDoubleAnimation);
         }
     }
 }

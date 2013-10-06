@@ -44,7 +44,7 @@ namespace DiskOfDemiseWPF
 
         public void addPhrases()
         {
-            phrases.Add("H E L L O   W O R L D   S U N S H I N E");
+            phrases.Add("H E L L O   W O R L D   S U N");
            // phrases.Add("The cat in the hat");
            // phrases.Add("What would you do for a Klondike Bar");
            // phrases.Add("Good morning sunshine");
@@ -93,7 +93,7 @@ namespace DiskOfDemiseWPF
                 correctGuess = false;
             }
 
-            Console.WriteLine(displayedPhrase);
+            //Console.WriteLine(displayedPhrase);
             if (!checkEndGame())
             {
                 //Next Turn
@@ -103,7 +103,7 @@ namespace DiskOfDemiseWPF
                     playerIndex = 0;
                 }
                 currentPlayer = (Player) Players[playerIndex];
-                Console.WriteLine(displayName());
+                //Console.WriteLine(displayName());
             }
         }
 
@@ -119,18 +119,19 @@ namespace DiskOfDemiseWPF
             }
             if (finished)
             {
-                Console.WriteLine("Game Ended");
+                //Console.WriteLine("Game Ended");
                 return true;
             }
             else
             {
-                Console.WriteLine("Not Over Yet");
+                //Console.WriteLine("Not Over Yet");
                 return false;
             }
         }
 
         public String displayPhrase()
         {
+            Console.WriteLine(displayedPhrase.ToString());
             return displayedPhrase.ToString();
         }
 
