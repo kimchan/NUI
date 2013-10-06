@@ -1,13 +1,52 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace DiskOfDemiseWPF
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        DiskOfDemiseGame d1;
+        //BitmapImage b1;
+
+        public MainWindow()
+        {
+            d1 = new DiskOfDemiseGame();
+            //b1 = new BitmapImage();
+
+            InitializeComponent();
+            
+            /*b1.BeginInit();
+            b1.UriSource = new Uri("wheelPic.png", UriKind.Relative);
+            b1.EndInit();
+
+            wheelPicture.Source = b1;*/
+
+            wheelPicture.RenderTransform = new RotateTransform(5);
+
+            phraseLabel.Content = d1.displayPhrase();
+            nameLabel.Content = "Player " + d1.displayName();
+        }
+    }
+}
+
+
+
+/*
 
 namespace DiskOfDemise
 {
@@ -113,3 +152,5 @@ namespace DiskOfDemise
 
     }
 }
+
+*/
