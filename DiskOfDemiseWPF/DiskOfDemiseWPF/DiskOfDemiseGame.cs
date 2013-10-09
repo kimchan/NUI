@@ -18,6 +18,7 @@ namespace DiskOfDemiseWPF
         private String phraseToGuess;
         private StringBuilder displayedPhrase = new StringBuilder();
         private bool correctGuess = false;
+        private String bodyPart= "";
 
         public DiskOfDemiseGame()
         {
@@ -69,6 +70,11 @@ namespace DiskOfDemiseWPF
             }
         }
 
+        public void setBodyPart(String bodyPart)
+        {
+            this.bodyPart = bodyPart;
+        }
+
         //Check guessed letter in phrase
         public void checkLetterInPhrase(char character)
         {
@@ -86,7 +92,7 @@ namespace DiskOfDemiseWPF
             if (!correctGuess)
             {
                 //Lose Limb
-                currentPlayer.removeLimb("Head");
+                currentPlayer.removeLimb(bodyPart);
             }
             else
             {
