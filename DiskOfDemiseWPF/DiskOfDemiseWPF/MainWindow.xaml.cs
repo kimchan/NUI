@@ -66,6 +66,7 @@ namespace DiskOfDemiseWPF
 
         /// <summary>
         /// method for actions taken when a gesture is recognized
+        /// //Hello
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
