@@ -46,9 +46,9 @@ namespace DiskOfDemiseWPF
         public void addPhrases()
         {
             phrases.Add("H E L L O   W O R L D   S U N");
-           // phrases.Add("The cat in the hat");
-           // phrases.Add("What would you do for a Klondike Bar");
-           // phrases.Add("Good morning sunshine");
+            phrases.Add("T H E  C A T  I N  T H E  H A T");
+            phrases.Add("G O O D  E V E N I N G");
+            phrases.Add("H O W  A R E  Y O U  T O D A Y");
         }
 
         //Randomly assign a phrase from the arrayList to phraseToGuess & displayedPhrase
@@ -125,7 +125,8 @@ namespace DiskOfDemiseWPF
             }
             if (finished)
             {
-                //Console.WriteLine("Game Ended");
+                assignPhrase();
+                Console.WriteLine("Game Ended");
                 return true;
             }
             else
