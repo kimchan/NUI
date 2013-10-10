@@ -63,14 +63,13 @@ namespace DiskOfDemiseWPF
         private void WhenGestureRecognized(object sender, GestureEventArgs e)
         {
             /// disable gesture service
-            GestureServiceOff();
+            /// GestureServiceOff();
             /// output gesture type to console
             mostRecentGesture = e.gestureType;
             System.Console.Write(e.gestureType + "\n");
             /// spin wheel
-            /*
             if (e.gestureType == "swipe_left" || e.gestureType == "swipe_right" ||
-                e.gestureType == "kick_left"||e.gestureType == "kick_right")
+                e.gestureType == "kick_left" || e.gestureType == "kick_right")
             {
                 double randomDouble; ;
                 Random random = new Random();
@@ -81,7 +80,6 @@ namespace DiskOfDemiseWPF
                 }
                 this.spinWheel(randomDouble);
             }
-            */
         }
 
         private void findBodyPart(Double number)
@@ -217,7 +215,7 @@ namespace DiskOfDemiseWPF
 
                     spRecEng.LoadGrammarAsync(grammar);
 
-                   // spRecEng.RecognizeAsync(RecognizeMode.Multiple);
+                    // spRecEng.RecognizeAsync(RecognizeMode.Multiple);
 
 
                 }
@@ -260,7 +258,7 @@ namespace DiskOfDemiseWPF
             raiseHandRight[0] = new RaiseHandRightSegment();
             raiseHandRight[1] = new RaiseHandRightSegment();
             raiseHandRight[2] = new RaiseHandRightSegment();
-            gestureController.AddGesture("raise_hand_right",raiseHandRight);
+            /// gestureController.AddGesture("raise_hand_right",raiseHandRight);
             ///
             System.Console.Write("gesture service initialized\n");
         }
@@ -310,7 +308,7 @@ namespace DiskOfDemiseWPF
                 gestureController.GestureRecognized += this.WhenGestureRecognized;
             }
         }
-        
+
         static void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
         {
             Console.WriteLine(e.Grammar.Name + " successfully loaded");
@@ -367,22 +365,22 @@ namespace DiskOfDemiseWPF
         public void spinWheel(double addedAngle)
         {
             wheelPicture.RenderTransform = new RotateTransform();
-            double currentAngle = ((RotateTransform) wheelPicture.RenderTransform).Angle;
+            double currentAngle = ((RotateTransform)wheelPicture.RenderTransform).Angle;
             int duration = Math.Abs((int)addedAngle / 100);
-           
+
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = currentAngle;
-            myDoubleAnimation.To = currentAngle+addedAngle;
+            myDoubleAnimation.To = currentAngle + addedAngle;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(duration));
 
             //initGrammar();
-            
+
             //Console.ReadLine();
 
             myStoryboard = new Storyboard();
             myStoryboard.Children.Add(myDoubleAnimation);
 
-            ((RotateTransform) wheelPicture.RenderTransform).BeginAnimation(RotateTransform.AngleProperty, myDoubleAnimation);
+            ((RotateTransform)wheelPicture.RenderTransform).BeginAnimation(RotateTransform.AngleProperty, myDoubleAnimation);
 
             Thread oThread = new Thread(new ThreadStart(initGrammar));
             //oThread.Start();
@@ -391,9 +389,9 @@ namespace DiskOfDemiseWPF
 
             //Thread.Sleep(1);
 
-           // oThread.Abort();
+            // oThread.Abort();
 
-           // oThread.Join();
+            // oThread.Join();
 
             try
             {
