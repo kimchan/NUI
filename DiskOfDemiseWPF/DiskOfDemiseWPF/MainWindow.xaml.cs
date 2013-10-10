@@ -283,6 +283,7 @@ namespace DiskOfDemiseWPF
             gestureController.AddGesture("raise_hand_right",raiseHandRight);
             ///
             System.Console.Write("gesture service initialized\n");
+            ///
         }
 
         private void GestureServiceOff()
