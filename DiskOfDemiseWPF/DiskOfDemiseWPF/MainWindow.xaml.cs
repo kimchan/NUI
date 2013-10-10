@@ -25,6 +25,8 @@ using DiskOfDemiseWPF.EventArguments;
 using System.Threading;
 using MS = Microsoft.Speech.Recognition;
 using Microsoft.Speech.AudioFormat;
+using System.Windows.Threading;
+using System.Collections;
 
 namespace DiskOfDemiseWPF
 {
@@ -37,8 +39,8 @@ namespace DiskOfDemiseWPF
         /// global variables
         /// </summary>
         private Storyboard myStoryboard;
-        private static DiskOfDemiseGame d1;
-
+        private DiskOfDemiseGame d1;
+        private double angle = 0;
         /// <summary>
         /// kinect global variables
         /// </summary>
@@ -58,6 +60,8 @@ namespace DiskOfDemiseWPF
         private KinectAudioSource audioSource;
         private SpeechRecognitionEngine sre;
         private Thread audioThread;
+
+        private int armConfirm = 0;
 
 
         /// <summary>
@@ -85,6 +89,11 @@ namespace DiskOfDemiseWPF
                     randomDouble *= -1;
                 }
                 this.spinWheel(randomDouble);
+            }
+
+            if (e.gestureType == "raise_hand_right")
+            {
+                armConfirm = 1;
             }
         }
 
@@ -278,40 +287,10 @@ namespace DiskOfDemiseWPF
             raiseHandRight[0] = new RaiseHandRightSegment();
             raiseHandRight[1] = new RaiseHandRightSegment();
             raiseHandRight[2] = new RaiseHandRightSegment();
-            /// gestureController.AddGesture("raise_hand_right",raiseHandRight);
+            gestureController.AddGesture("raise_hand_right",raiseHandRight);
             ///
             System.Console.Write("gesture service initialized\n");
         }
-
-
-
-
-
-       /* public void initGrammar()
-        {
-
-            SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
-            using (var spRecEng = new SS.Recognition.SpeechRecognitionEngine(ri.Id))
-            {
-                //Choices letters = new Choices(new string[] { "A", "B" });
-                Choices letters = new Choices(new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
-
-                GrammarBuilder gb = new GrammarBuilder("Guess");
-                gb.Append(letters);
-
-                Grammar grammar = new Grammar(gb);
-                grammar.Name = "DisK of Demise";
-
-                spRecEng.LoadGrammarCompleted += new EventHandler<LoadGrammarCompletedEventArgs>(LoadGrammarCompleted);
-                spRecEng.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
-                spRecEng.SpeechRecognitionRejected += new EventHandler<SpeechRecognitionRejectedEventArgs>(SpeechRejected);
-                spRecEng.SetInputToDefaultAudioDevice();
-                spRecEng.LoadGrammarAsync(grammar);
-                spRecEng.RecognizeAsync(RecognizeMode.Multiple);
-                Console.ReadLine();
-            }
-            sensor.Stop();
-        }*/
 
         private void GestureServiceOff()
         {
@@ -334,14 +313,58 @@ namespace DiskOfDemiseWPF
             Console.WriteLine(e.Grammar.Name + " successfully loaded");
         }
 
+        String guessedLetters = "Guessed letters: ";
+
          void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             Console.WriteLine("Speech recognized: " + e.Result.Text);
 
             char letterUserGuessed = e.Result.Text[6];
-            d1.checkLetterInPhrase(letterUserGuessed);
-            reset();
-            Console.WriteLine("You guessed the letter:" + letterUserGuessed);
+            confirmLetter.Text = "Did you say: " + letterUserGuessed + "?";
+             Console.WriteLine("Did you say: " + letterUserGuessed + "?");
+             GestureServiceOn();
+             Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(5000);
+                if (armConfirm == 1)
+                {
+                    d1.checkLetterInPhrase(letterUserGuessed);
+                    Console.WriteLine("You guessed the letter: " + letterUserGuessed);
+                    Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+                    {
+                        try
+                        {
+                            confirmLetter.Text = "You guessed the letter: " + letterUserGuessed;
+                        }
+                        catch
+                        {
+                            confirmLetter.Text = "You guessed the letter: " + letterUserGuessed;
+                        }
+                    }));
+                    
+                    reset();
+                    guessedLetters += " " + letterUserGuessed;
+                }
+                else
+                {
+                     Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+                    {
+                        try
+                        {
+                            confirmLetter.Text = "Please try again.";
+                        }
+                        catch
+                        {
+
+                        }
+                    }));
+                    Console.WriteLine("Please try again.");
+                    
+                }
+                armConfirm = 0;
+                GestureServiceOff();
+                //confirmLetter.Text = "";
+            });
         }
 
         static void SpeechRejected(object sender, SpeechRecognitionRejectedEventArgs e)
@@ -366,72 +389,117 @@ namespace DiskOfDemiseWPF
             /// ???
             InitializeComponent();
             reset();
-
-            
-            //test();
-            /// game logic
-            /*
-            while (!gameOver)
-            {
-                newTurn(players[0]);
-            }
-            */
         }
 
         public void reset()
         {
-            phraseLabel.Text = d1.displayPhrase();
-            nameLabel.Text = " Player " + d1.displayName();
+            Dispatcher.BeginInvoke(DispatcherPriority.Input, new ThreadStart(() =>
+            {
+                try
+                {
+                    phraseLabel.Text = d1.displayPhrase();
+                    nameLabel.Text = " Player " + d1.displayName();
+                    guessedLetter.Text = guessedLetters;
+                }
+                catch
+                {
+                    phraseLabel.Text = d1.displayPhrase();
+                    nameLabel.Text = " Player " + d1.displayName();
+                    guessedLetter.Text = guessedLetters;
+                }
+            }));
+            clearBodyParts();
+            colorBodyParts(d1.displayName());
+            displayBodyParts();
             GestureServiceOn();
         }
 
         public void spinWheel(double addedAngle)
         {
-            wheelPicture.RenderTransform = new RotateTransform();
+            wheelPicture.RenderTransform = new RotateTransform(angle);
             double currentAngle = ((RotateTransform)wheelPicture.RenderTransform).Angle;
             int duration = Math.Abs((int)addedAngle / 100);
 
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = currentAngle;
-            Console.WriteLine(currentAngle);
             myDoubleAnimation.To = currentAngle + addedAngle;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(duration));
 
-            //initGrammar();
+            angle = currentAngle + addedAngle;
 
             myStoryboard = new Storyboard();
             myStoryboard.Children.Add(myDoubleAnimation);
 
             ((RotateTransform)wheelPicture.RenderTransform).BeginAnimation(RotateTransform.AngleProperty, myDoubleAnimation);
-
-            /*
-            Thread oThread = new Thread(new ThreadStart(initGrammar));
-            oThread.Start();
-
-            //while (oThread.IsAlive);
-
-            //Thread.Sleep(1);
-
-             //oThread.Abort();
-
-            // oThread.Join();
-
-            try
-            {
-                Console.WriteLine("Try to restart the initGrammar thread");
-                oThread.Start();
-                Thread.Sleep(1);
-            }
-            catch (ThreadStateException)
-            {
-                Console.Write("ThreadStateException trying to restart initGrammar. ");
-                Console.WriteLine("Expected since aborted threads cannot be restarted.");
-            }*/
         }
 
         public SS.Recognition.RecognizerInfo getRI()
         {
             return priRI;
+        }
+
+        private void colorBodyParts(String color)
+        {
+            SolidColorBrush bodyColor = Brushes.Black;
+            if (color.Equals("Red"))
+            {
+                bodyColor = Brushes.OrangeRed;
+            }
+            else if (color.Equals("Yellow"))
+            {
+                bodyColor = Brushes.LightGoldenrodYellow;
+            }
+            else if (color.Equals("Green"))
+            {
+                bodyColor = Brushes.LightGreen;
+            }
+            else if (color.Equals("Blue"))
+            {
+                bodyColor = Brushes.CornflowerBlue;
+            }
+            headShape.Fill = bodyColor;
+            rightArmShape.Fill = bodyColor;
+            leftArmShape.Fill = bodyColor;
+            rightLegShape.Fill = bodyColor;
+            leftLegShape.Fill = bodyColor;
+            bodyShape.Fill = bodyColor;
+        }
+
+        private void clearBodyParts()
+        {
+            headShape.Opacity = 0;
+            rightArmShape.Opacity = 0;
+            leftArmShape.Opacity = 0;
+            rightLegShape.Opacity = 0;
+            leftLegShape.Opacity = 0;
+        }
+
+        private void displayBodyParts()
+        {
+            ArrayList temp = d1.returnBodyParts();
+            for (int i = 0; i < temp.Count; i++)
+            {
+                if (temp[i].Equals("Head"))
+                {
+                    headShape.Opacity = 100;
+                }
+                if (temp[i].Equals("RightArm"))
+                {
+                    rightArmShape.Opacity = 100;
+                }
+                if (temp[i].Equals("LeftArm"))
+                {
+                    leftArmShape.Opacity = 100;
+                }
+                if (temp[i].Equals("RightLeg"))
+                {
+                    rightLegShape.Opacity = 100;
+                }
+                if (temp[i].Equals("LeftLeg"))
+                {
+                    leftLegShape.Opacity = 100;
+                }
+            }
         }
 
     }
