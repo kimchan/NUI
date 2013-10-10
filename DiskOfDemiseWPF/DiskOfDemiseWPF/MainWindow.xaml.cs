@@ -34,21 +34,26 @@ namespace DiskOfDemiseWPF
         /// <summary>
         /// global variables
         /// </summary>
-        DiskOfDemiseGame d1;
-        KinectSensor sensor = null;
-        GestureController gestureController = null;
         private Storyboard myStoryboard;
+        DiskOfDemiseGame d1;
+        Player[] players;
+        Boolean gameOver;
 
         /// <summary>
-        /// color stream variables
+        /// kinect global variables
+        /// </summary>
+        KinectSensor sensor = null;
+        GestureController gestureController = null;
+        String mostRecentGesture;
+
+        /// <summary>
+        /// color stream global variables
         /// </summary>
         private byte[] colorPixelData;          // image source for image control
         private WriteableBitmap outputImage;    // bitmap for color stream image
 
-
         //voice recog
         private SS.Recognition.RecognizerInfo priRI;
-
 
         /// <summary>
         /// method for actions taken when a gesture is recognized
@@ -57,20 +62,26 @@ namespace DiskOfDemiseWPF
         /// <param name="e"></param>
         private void WhenGestureRecognized(object sender, GestureEventArgs e)
         {
+            /// disable gesture service
+            GestureServiceOff();
             /// output gesture type to console
+            mostRecentGesture = e.gestureType;
             System.Console.Write(e.gestureType + "\n");
-
             /// spin wheel
-            double randomDouble; ;
-            Random random = new Random();
-            randomDouble = 180 + random.NextDouble() * 720;
-
-            if (e.gestureType == "swipe left (from right)")
+            /*
+            if (e.gestureType == "swipe_left" || e.gestureType == "swipe_right" ||
+                e.gestureType == "kick_left"||e.gestureType == "kick_right")
             {
-                randomDouble *= -1;
+                double randomDouble; ;
+                Random random = new Random();
+                randomDouble = 180.00 + random.NextDouble() * 720;
+                if (e.gestureType == "swipe_left" || e.gestureType == "kick_left")
+                {
+                    randomDouble *= -1;
+                }
+                this.spinWheel(randomDouble);
             }
-            this.spinWheel(randomDouble);
-            this.findBodyPart(Math.Abs(randomDouble));
+            */
         }
 
         private void findBodyPart(Double number)
@@ -101,7 +112,8 @@ namespace DiskOfDemiseWPF
             }
             Console.WriteLine(number);
         }
-
+        /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -129,6 +141,11 @@ namespace DiskOfDemiseWPF
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void sensorColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
         {
             using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
@@ -169,7 +186,7 @@ namespace DiskOfDemiseWPF
             {
                 this.sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
                 this.sensor.ColorFrameReady += new EventHandler<ColorImageFrameReadyEventArgs>(sensorColorFrameReady);
-                ///this.sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+                this.sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
                 this.sensor.SkeletonStream.Enable();
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
                 this.sensor.Start();
@@ -226,10 +243,27 @@ namespace DiskOfDemiseWPF
             swipeLeft[1] = new SwipeLeftSegment2();
             swipeLeft[2] = new SwipeLeftSegment3();
             gestureController.AddGesture("swipe left (from right)", swipeLeft);
-            /// signal
+            /// initialize and add kick right gesture to controller
+            GestureSegment[] kickRight = new GestureSegment[3];
+            kickRight[0] = new KickRightSegment();
+            kickRight[1] = new KickRightSegment();
+            kickRight[2] = new KickRightSegment();
+            gestureController.AddGesture("kick_right", kickRight);
+            /// initialize and add kick left gesture to controller
+            GestureSegment[] kickLeft = new GestureSegment[3];
+            kickLeft[0] = new KickLeftSegment();
+            kickLeft[1] = new KickLeftSegment();
+            kickLeft[2] = new KickLeftSegment();
+            gestureController.AddGesture("kick_left", kickLeft);
+            /// initialize and add kick left gesture to controller
+            GestureSegment[] raiseHandRight = new GestureSegment[3];
+            raiseHandRight[0] = new RaiseHandRightSegment();
+            raiseHandRight[1] = new RaiseHandRightSegment();
+            raiseHandRight[2] = new RaiseHandRightSegment();
+            gestureController.AddGesture("raise_hand_right",raiseHandRight);
+            ///
             System.Console.Write("gesture service initialized\n");
         }
-
 
         public void initGrammar()
         {
@@ -258,12 +292,25 @@ namespace DiskOfDemiseWPF
                 spRecEng.RecognizeAsync(RecognizeMode.Multiple);
                 //Console.ReadLine();
             }
-
-
-
             sensor.Stop();
         }
 
+        private void GestureServiceOff()
+        {
+            if (gestureController != null)
+            {
+                gestureController.GestureRecognized -= this.WhenGestureRecognized;
+            }
+        }
+
+        private void GestureServiceOn()
+        {
+            if (gestureController != null)
+            {
+                gestureController.GestureRecognized += this.WhenGestureRecognized;
+            }
+        }
+        
         static void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
         {
             Console.WriteLine(e.Grammar.Name + " successfully loaded");
@@ -276,40 +323,39 @@ namespace DiskOfDemiseWPF
             char letterUserGuessed = e.Result.Text[6];
 
             Console.WriteLine("You guessed the letter:" + letterUserGuessed);
-
-
         }
 
         static void SpeechRejected(object sender, SpeechRecognitionRejectedEventArgs e)
         {
             Console.WriteLine("Speech input failed. Please Repeat.");
-        }   
+        }
 
+        private void newTurn(Player player)
+        {
+
+        }
 
         public MainWindow()
         {
-            // new game
+            InitializeComponent();
+            /// new (single player) game
             d1 = new DiskOfDemiseGame();
-
-            /// initializations
-            InitializeComponent();
+            players = new Player[1];
+            players[0] = new Player("red");
+            gameOver = false;
+            /// kinect initializations
             initKinect();
-
             initGestureService();
-
-   
-
+            /// ???
             InitializeComponent();
-            
-
-
-
             reset();
-
-    
-
-            /// spinWheel(1000);
-            
+            /// game logic
+            /*
+            while (!gameOver)
+            {
+                newTurn(players[0]);
+            }
+            */
         }
 
         public void reset()
@@ -329,10 +375,9 @@ namespace DiskOfDemiseWPF
             myDoubleAnimation.To = currentAngle+addedAngle;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(duration));
 
-           // initGrammar();
+            //initGrammar();
+            
             //Console.ReadLine();
-
-
 
             myStoryboard = new Storyboard();
             myStoryboard.Children.Add(myDoubleAnimation);

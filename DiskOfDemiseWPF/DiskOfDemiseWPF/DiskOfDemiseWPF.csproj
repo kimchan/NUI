@@ -91,6 +91,9 @@
     <Compile Include="GestureService\Gesture\Gesture.cs" />
     <Compile Include="GestureService\Gesture\GestureController.cs" />
     <Compile Include="GestureService\Gesture\Parts\GestureSegment.cs" />
+    <Compile Include="GestureService\Gesture\Parts\Kick\KickLeftSegment.cs" />
+    <Compile Include="GestureService\Gesture\Parts\Kick\KickRightSegment.cs" />
+    <Compile Include="GestureService\Gesture\Parts\Pose\RaiseHandRightSegment.cs" />
     <Compile Include="GestureService\Gesture\Parts\SwipeLeft\SwipeLeftSegment1.cs" />
     <Compile Include="GestureService\Gesture\Parts\SwipeLeft\SwipeLeftSegment2.cs" />
     <Compile Include="GestureService\Gesture\Parts\SwipeLeft\SwipeLeftSegment3.cs" />
