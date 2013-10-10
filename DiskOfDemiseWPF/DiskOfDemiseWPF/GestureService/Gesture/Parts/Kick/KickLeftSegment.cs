@@ -19,7 +19,7 @@ namespace DiskOfDemiseWPF.Gesture.Parts.SwipeRight
                 if (skeleton.Joints[JointType.KneeLeft].Position.Z < skeleton.Joints[JointType.HipCenter].Position.Z)
                 {
                     // distance from hip to knee is "small"
-                    if (Math.Abs(skeleton.Joints[JointType.HipCenter].Position.Y - skeleton.Joints[JointType.AnkleLeft].Position.Y) < 0.5)
+                    if (Math.Abs(skeleton.Joints[JointType.HipCenter].Position.Y - skeleton.Joints[JointType.AnkleLeft].Position.Y) < 0.33)
                     {
                         return GesturePartResult.Succeed;
                     }

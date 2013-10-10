@@ -91,7 +91,6 @@ namespace DiskOfDemiseWPF
                 }
                 this.spinWheel(randomDouble);
             }
-
             if (e.gestureType == "raise_hand_right")
             {
                 armConfirm = 1;
@@ -153,7 +152,6 @@ namespace DiskOfDemiseWPF
                 }
             }
         }
-
         /// <summary>
         /// 
         /// </summary>
@@ -204,11 +202,9 @@ namespace DiskOfDemiseWPF
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
                 this.sensor.Start();
 
-                
                 System.Console.Write("kinect initialized\n");
             }
         }
-
 
         private void initializeKSpeech()
         {
@@ -217,7 +213,6 @@ namespace DiskOfDemiseWPF
             source.EchoCancellationMode = EchoCancellationMode.None;
             source.AutomaticGainControlEnabled = false;
             SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
-               
         }
 
         private void initializeSpeech()
@@ -239,8 +234,6 @@ namespace DiskOfDemiseWPF
 
             //sre.SetInputToDefaultAudioDevice();
             sre.LoadGrammarAsync(grammar);
-           
-
         }
 
         private void startAudioListening()
@@ -251,7 +244,6 @@ namespace DiskOfDemiseWPF
             sre.SetInputToDefaultAudioDevice();
            // sre.LoadGrammarAsync(grammar);
             sre.RecognizeAsync(RecognizeMode.Multiple);
-
         }
 
         private void initGestureService()
@@ -316,15 +308,15 @@ namespace DiskOfDemiseWPF
 
         String guessedLetters = "Guessed letters: ";
 
-         void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
             Console.WriteLine("Speech recognized: " + e.Result.Text);
 
             char letterUserGuessed = e.Result.Text[6];
             confirmLetter.Text = "Did you say: " + letterUserGuessed + "?";
-             Console.WriteLine("Did you say: " + letterUserGuessed + "?");
-             GestureServiceOn();
-             Task.Factory.StartNew(() =>
+            Console.WriteLine("Did you say: " + letterUserGuessed + "?");
+            GestureServiceOn();
+            Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(5000);
                 if (armConfirm == 1)
@@ -360,7 +352,6 @@ namespace DiskOfDemiseWPF
                         }
                     }));
                     Console.WriteLine("Please try again.");
-                    
                 }
                 armConfirm = 0;
                 GestureServiceOff();
@@ -384,7 +375,6 @@ namespace DiskOfDemiseWPF
             initializeSpeech();
             initGestureService();
 
-
             audioThread = new Thread(startAudioListening);
             audioThread.Start();
             /// ???
@@ -401,6 +391,9 @@ namespace DiskOfDemiseWPF
                     phraseLabel.Text = d1.displayPhrase();
                     nameLabel.Text = " Player " + d1.displayName();
                     guessedLetter.Text = guessedLetters;
+                    clearBodyParts();
+                    colorBodyParts(d1.displayName());
+                    displayBodyParts();
                 }
                 catch
                 {
@@ -409,9 +402,9 @@ namespace DiskOfDemiseWPF
                     guessedLetter.Text = guessedLetters;
                 }
             }));
-            clearBodyParts();
-            colorBodyParts(d1.displayName());
-            displayBodyParts();
+            ///clearBodyParts();
+            ///colorBodyParts(d1.displayName());
+            ///displayBodyParts();
             GestureServiceOn();
         }
 
@@ -466,7 +459,7 @@ namespace DiskOfDemiseWPF
             bodyShape.Fill = bodyColor;
         }
 
-        private void clearBodyParts()
+        public void clearBodyParts()
         {
             headShape.Opacity = 0;
             rightArmShape.Opacity = 0;
@@ -502,7 +495,6 @@ namespace DiskOfDemiseWPF
                 }
             }
         }
-
     }
 }
 

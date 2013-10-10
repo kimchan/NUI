@@ -12,9 +12,17 @@ namespace DiskOfDemiseWPF.Gesture.Parts
     {
         public GesturePartResult CheckGesture(Skeleton skeleton)
         {
-            if (skeleton.Joints[JointType.HandRight].Position.Y < skeleton.Joints[JointType.Head].Position.Y)
+            if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.HipCenter].Position.Y)
             {
-                return GesturePartResult.Succeed;
+                if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.ShoulderCenter].Position.Y)
+                {
+                    if (skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.Head].Position.Y)
+                    {
+                        return GesturePartResult.Succeed;
+                    }
+                    return GesturePartResult.Pausing;
+                }
+                return GesturePartResult.Fail;
             }
             return GesturePartResult.Fail;
         }
