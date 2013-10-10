@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using SS = System.Speech;
+using System.Speech.Recognition;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,6 +22,7 @@ using DiskOfDemiseWPF.Gesture.Parts;
 using DiskOfDemiseWPF.Gesture.Parts.SwipeLeft;
 using DiskOfDemiseWPF.Gesture.Parts.SwipeRight;
 using DiskOfDemiseWPF.EventArguments;
+using System.Threading;
 
 namespace DiskOfDemiseWPF
 {
@@ -41,6 +45,11 @@ namespace DiskOfDemiseWPF
         private byte[] colorPixelData;          // image source for image control
         private WriteableBitmap outputImage;    // bitmap for color stream image
 
+
+        //voice recog
+        private SS.Recognition.RecognizerInfo priRI;
+
+
         /// <summary>
         /// method for actions taken when a gesture is recognized
         /// </summary>
@@ -54,13 +63,43 @@ namespace DiskOfDemiseWPF
             /// spin wheel
             double randomDouble; ;
             Random random = new Random();
-            randomDouble = random.NextDouble()*540;
+            randomDouble = 180 + random.NextDouble() * 720;
 
-            if(e.gestureType == "swipe left (from right)")
+            if (e.gestureType == "swipe left (from right)")
             {
                 randomDouble *= -1;
             }
             this.spinWheel(randomDouble);
+            this.findBodyPart(Math.Abs(randomDouble));
+        }
+
+        private void findBodyPart(Double number)
+        {
+            while (number > 360)
+            {
+                number -= 360;
+            }
+            if (number <= 72)
+            {
+                d1.setBodyPart("Head");
+            }
+            else if (number > 72 && number <= 144)
+            {
+                d1.setBodyPart("RightArm");
+            }
+            else if (number > 144 && number <= 216)
+            {
+                d1.setBodyPart("LeftArm");
+            }
+            else if (number > 216 && number <= 288)
+            {
+                d1.setBodyPart("RightLeg");
+            }
+            else if (number > 288 && number <= 360)
+            {
+                d1.setBodyPart("LeftLeg");
+            }
+            Console.WriteLine(number);
         }
 
         /// </summary>
@@ -134,8 +173,40 @@ namespace DiskOfDemiseWPF
                 this.sensor.SkeletonStream.Enable();
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
                 this.sensor.Start();
+
+                //INITIALIZE AUDIOSOURCE
+                KinectAudioSource source = sensor.AudioSource;
+                source.EchoCancellationMode = EchoCancellationMode.None;
+                source.AutomaticGainControlEnabled = false;
+
+                SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
+                using (var spRecEng = new SS.Recognition.SpeechRecognitionEngine(ri.Id))
+                {
+
+                    //Choices letters = new Choices(new string[] { "A", "B" });
+                    Choices letters = new Choices(new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
+
+                    GrammarBuilder gb = new GrammarBuilder("Guess");
+                    gb.Append(letters);
+
+                    Grammar grammar = new Grammar(gb);
+                    grammar.Name = "DisK of Demise";
+
+                    spRecEng.LoadGrammarCompleted += new EventHandler<LoadGrammarCompletedEventArgs>(LoadGrammarCompleted);
+                    spRecEng.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
+                    spRecEng.SpeechRecognitionRejected += new EventHandler<SpeechRecognitionRejectedEventArgs>(SpeechRejected);
+
+                    spRecEng.SetInputToDefaultAudioDevice();
+
+                    spRecEng.LoadGrammarAsync(grammar);
+
+                   // spRecEng.RecognizeAsync(RecognizeMode.Multiple);
+
+
+                }
+                priRI = ri;
+                //System.Console.Write("kinect initialized\n");
             }
-            System.Console.Write("kinect initialized\n");
         }
 
         private void initGestureService()
@@ -159,6 +230,62 @@ namespace DiskOfDemiseWPF
             System.Console.Write("gesture service initialized\n");
         }
 
+
+        public void initGrammar()
+        {
+
+            SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
+            using (var spRecEng = new SS.Recognition.SpeechRecognitionEngine(ri.Id))
+            {
+
+                //Choices letters = new Choices(new string[] { "A", "B" });
+                Choices letters = new Choices(new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
+
+                GrammarBuilder gb = new GrammarBuilder("Guess");
+                gb.Append(letters);
+
+                Grammar grammar = new Grammar(gb);
+                grammar.Name = "DisK of Demise";
+
+                spRecEng.LoadGrammarCompleted += new EventHandler<LoadGrammarCompletedEventArgs>(LoadGrammarCompleted);
+                spRecEng.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(SpeechRecognized);
+                spRecEng.SpeechRecognitionRejected += new EventHandler<SpeechRecognitionRejectedEventArgs>(SpeechRejected);
+
+                spRecEng.SetInputToDefaultAudioDevice();
+
+                spRecEng.LoadGrammarAsync(grammar);
+
+                spRecEng.RecognizeAsync(RecognizeMode.Multiple);
+                //Console.ReadLine();
+            }
+
+
+
+            sensor.Stop();
+        }
+
+        static void LoadGrammarCompleted(object sender, LoadGrammarCompletedEventArgs e)
+        {
+            Console.WriteLine(e.Grammar.Name + " successfully loaded");
+        }
+
+        static void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            Console.WriteLine("Speech recognized: " + e.Result.Text);
+
+            char letterUserGuessed = e.Result.Text[6];
+
+            Console.WriteLine("You guessed the letter:" + letterUserGuessed);
+
+
+        }
+
+        static void SpeechRejected(object sender, SpeechRecognitionRejectedEventArgs e)
+        {
+            Console.WriteLine("Speech input failed. Please Repeat.");
+        }   
+
+
         public MainWindow()
         {
             // new game
@@ -167,10 +294,19 @@ namespace DiskOfDemiseWPF
             /// initializations
             InitializeComponent();
             initKinect();
+
             initGestureService();
 
+   
+
             InitializeComponent();
+            
+
+
+
             reset();
+
+    
 
             /// spinWheel(1000);
             
@@ -193,11 +329,45 @@ namespace DiskOfDemiseWPF
             myDoubleAnimation.To = currentAngle+addedAngle;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(duration));
 
+           // initGrammar();
+            //Console.ReadLine();
+
+
+
             myStoryboard = new Storyboard();
             myStoryboard.Children.Add(myDoubleAnimation);
 
             ((RotateTransform) wheelPicture.RenderTransform).BeginAnimation(RotateTransform.AngleProperty, myDoubleAnimation);
+
+            Thread oThread = new Thread(new ThreadStart(initGrammar));
+            //oThread.Start();
+
+            //while (oThread.IsAlive);
+
+            //Thread.Sleep(1);
+
+           // oThread.Abort();
+
+           // oThread.Join();
+
+            try
+            {
+                Console.WriteLine("Try to restart the initGrammar thread");
+                oThread.Start();
+                Thread.Sleep(1);
+            }
+            catch (ThreadStateException)
+            {
+                Console.Write("ThreadStateException trying to restart initGrammar. ");
+                Console.WriteLine("Expected since aborted threads cannot be restarted.");
+            }
         }
+
+        public SS.Recognition.RecognizerInfo getRI()
+        {
+            return priRI;
+        }
+
     }
 }
 
