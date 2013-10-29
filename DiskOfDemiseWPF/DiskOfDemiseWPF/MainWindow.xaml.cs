@@ -104,23 +104,19 @@ namespace DiskOfDemiseWPF
             {
                 number -= 360;
             }
-            if (number <= 72)
-            {
-                d1.setBodyPart("Head");
-            }
-            else if (number > 72 && number <= 144)
+            if (number <= 90)
             {
                 d1.setBodyPart("RightArm");
             }
-            else if (number > 144 && number <= 216)
-            {
-                d1.setBodyPart("LeftArm");
-            }
-            else if (number > 216 && number <= 288)
+            else if (number <= 180)
             {
                 d1.setBodyPart("RightLeg");
             }
-            else if (number > 288 && number <= 360)
+            else if (number <= 270)
+            {
+                d1.setBodyPart("LeftArm");
+            }
+            else if (number <= 360)
             {
                 d1.setBodyPart("LeftLeg");
             }
