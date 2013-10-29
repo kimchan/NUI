@@ -37,8 +37,8 @@ namespace DiskOfDemiseWPF
 
             Players.Add(player0);
             Players.Add(player1);
-            Players.Add(player2);
-            Players.Add(player3);
+            //Players.Add(player2);
+            //Players.Add(player3);
             currentPlayer = player0;
             playerIndex = 0;
         }
