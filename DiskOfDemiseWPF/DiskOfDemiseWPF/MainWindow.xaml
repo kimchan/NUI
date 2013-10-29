@@ -7,7 +7,7 @@
         <Rectangle HorizontalAlignment="Left" Height="16" Margin="0,523,0,0" Stroke="#00000000" VerticalAlignment="Top" Width="992" Fill="Black"/>
         <TextBlock Name ="nameLabel" Text="Label" HorizontalAlignment="Left" Margin="13,465,0,0" VerticalAlignment="Top" Width="393" FontSize="36"/>
         <Rectangle HorizontalAlignment="Left" Height="539" Margin="393,0,0,0" Stroke="#00000000" VerticalAlignment="Top" Width="18" Fill="Black"/>
-        <Image Name = "wheelPicture" HorizontalAlignment="Left" Height="433" Margin="475,43,0,0" VerticalAlignment="Top" Width="478" Source="/DiskOfDemiseWPF;component/Resources/badassWheel.png" RenderTransformOrigin="0.5,0.5">
+        <Image Name = "wheelPicture" HorizontalAlignment="Left" Height="433" Margin="475,43,0,0" VerticalAlignment="Top" Width="478" Source="/DiskOfDemiseWPF;component/Resources/sweetFuckingWheel.png" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

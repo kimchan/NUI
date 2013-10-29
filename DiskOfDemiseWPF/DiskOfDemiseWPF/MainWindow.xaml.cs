@@ -41,32 +41,32 @@ namespace DiskOfDemiseWPF
         private Storyboard myStoryboard;
         private DiskOfDemiseGame d1;
         private double angle = 0;
+        
         /// <summary>
         /// kinect global variables
         /// </summary>
         KinectSensor sensor = null;
         GestureController gestureController = null;
         String mostRecentGesture;
-
+        
         /// <summary>
         /// color stream global variables
         /// </summary>
         private byte[] colorPixelData;          // image source for image control
         private WriteableBitmap outputImage;    // bitmap for color stream image
-
-        //voice recog
+        
+        ///<summary>
+        /// voice recognition global variables
+        /// </summary>
         private SS.Recognition.RecognizerInfo priRI;
-
         private KinectAudioSource audioSource;
         private SpeechRecognitionEngine sre;
         private Thread audioThread;
-
+        
         private int armConfirm = 0;
-
 
         /// <summary>
         /// method for actions taken when a gesture is recognized
-        /// //Hello
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -77,6 +77,7 @@ namespace DiskOfDemiseWPF
             /// output gesture type to console
             mostRecentGesture = e.gestureType;
             System.Console.Write(e.gestureType + "\n");
+            /// MessageBox.Show(e.gestureType);
             /// spin wheel
             if (e.gestureType == "swipe_left" || e.gestureType == "swipe_right" ||
                 e.gestureType == "kick_left" || e.gestureType == "kick_right")
@@ -124,8 +125,9 @@ namespace DiskOfDemiseWPF
                 d1.setBodyPart("LeftLeg");
             }
         }
+        
         /// <summary>
-        /// 
+        /// actions taken when a new skeleton frame is ready
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -153,7 +155,7 @@ namespace DiskOfDemiseWPF
             }
         }
         /// <summary>
-        /// 
+        /// actions taken when a new color frame is ready
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -201,8 +203,9 @@ namespace DiskOfDemiseWPF
                 this.sensor.SkeletonStream.Enable();
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
                 this.sensor.Start();
-
+                ///
                 System.Console.Write("kinect initialized\n");
+                ///
             }
         }
 
@@ -418,6 +421,7 @@ namespace DiskOfDemiseWPF
             DoubleAnimation myDoubleAnimation = new DoubleAnimation();
             myDoubleAnimation.From = currentAngle;
             myDoubleAnimation.To = currentAngle + addedAngle;
+            myDoubleAnimation.DecelerationRatio = 0.5;
             myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(duration));
 
             angle = currentAngle + addedAngle;
