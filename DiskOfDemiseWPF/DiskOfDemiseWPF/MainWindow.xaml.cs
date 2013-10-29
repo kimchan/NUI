@@ -53,8 +53,13 @@ namespace DiskOfDemiseWPF
         /// <summary>
         /// color stream global variables
         /// </summary>
-        private byte[] colorPixelData;          // image source for image control
-        private WriteableBitmap outputImage;    // bitmap for color stream image
+        private byte[] colorPixels;          // image source for image control
+        private WriteableBitmap bitmap;    // bitmap for color stream image
+
+        private DrawingGroup drawingGroup;
+        private DrawingImage imageSource;
+        private Pen inferredPen = new Pen(Brushes.Red, 4);
+        private Pen trackedPen = new Pen(Brushes.Green, 4);
         
         ///<summary>
         /// voice recognition global variables
@@ -166,32 +171,127 @@ namespace DiskOfDemiseWPF
                 }
             }
         }
+        
         /// <summary>
-        /// actions taken when a new color frame is ready
+        /// draws rgb stream and skeleton
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void sensorColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
+        private void sensorAllFramesReady(object sender, AllFramesReadyEventArgs e)
         {
+            KinectSensor sensor = sender as KinectSensor;
             using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
             {
                 if (colorFrame != null)
                 {
-                    // using standard SDK
-                    this.colorPixelData = new byte[colorFrame.PixelDataLength];
-
-                    colorFrame.CopyPixelDataTo(this.colorPixelData);
-
-                    this.outputImage = new WriteableBitmap(colorFrame.Width, colorFrame.Height,
-                    96,  // DpiX
-                    96,  // DpiY
-                    PixelFormats.Bgr32, null);
-
-                    this.outputImage.WritePixels(new Int32Rect(0, 0, colorFrame.Width, colorFrame.Height),
-                        this.colorPixelData, colorFrame.Width * 4, 0);
-                    this.kinectColorImage.Source = this.outputImage;
+                    colorFrame.CopyPixelDataTo(this.colorPixels);
+                    this.bitmap.WritePixels(
+                        new Int32Rect(0, 0, this.bitmap.PixelWidth, this.bitmap.PixelHeight),
+                        this.colorPixels,
+                        this.bitmap.PixelWidth * sizeof(int),
+                        0);
                 }
             }
+            using (DrawingContext dc = this.drawingGroup.Open())
+            {
+                dc.DrawImage(this.bitmap, new Rect(0.0, 0.0, this.bitmap.PixelWidth, this.bitmap.PixelHeight));
+                Skeleton[] skeletons = new Skeleton[0];
+                using (SkeletonFrame skeletonFrame = e.OpenSkeletonFrame())
+                {
+                    if (skeletonFrame != null)
+                    {
+                        skeletons = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                        skeletonFrame.CopySkeletonDataTo(skeletons);
+                    }
+                }
+                if (skeletons.Length != 0)
+                {
+                    foreach (Skeleton skeleton in skeletons)
+                    {
+                        if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+                        {
+                            this.DrawSkeleton(skeleton, dc);
+                        }
+                        else if (skeleton.TrackingState == SkeletonTrackingState.PositionOnly)
+                        {
+                            dc.DrawEllipse(Brushes.Blue, null, this.SkeletonPointToScreen(skeleton.Position), 10, 10);
+                        }
+                    }
+                }
+            }
+        }
+
+        private Point SkeletonPointToScreen(SkeletonPoint skeletonPoint)
+        {
+            ColorImagePoint colorPoint = this.sensor.CoordinateMapper.MapSkeletonPointToColorPoint(skeletonPoint, ColorImageFormat.RgbResolution640x480Fps30);
+            return new Point(colorPoint.X, colorPoint.Y);
+        }
+
+        private void DrawSkeleton(Skeleton skeleton, DrawingContext dc)
+        {
+            //Torso
+            this.DrawBone(skeleton, dc, JointType.Head, JointType.ShoulderCenter, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.ShoulderCenter, JointType.ShoulderLeft, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.ShoulderCenter, JointType.ShoulderRight, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.ShoulderCenter, JointType.Spine, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.Spine, JointType.HipCenter, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.HipCenter, JointType.HipLeft, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.HipCenter, JointType.HipRight, this.trackedPen);
+            //Left Arm
+            this.DrawBone(skeleton, dc, JointType.ShoulderLeft, JointType.ElbowLeft, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.ElbowLeft, JointType.WristLeft, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.WristLeft, JointType.HandLeft, this.trackedPen);
+            //Right Arm
+            this.DrawBone(skeleton, dc, JointType.ShoulderRight, JointType.ElbowRight, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.ElbowRight, JointType.WristRight, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.WristRight, JointType.HandRight, this.trackedPen);
+            //Left Leg
+            this.DrawBone(skeleton, dc, JointType.HipLeft, JointType.KneeLeft, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.KneeLeft, JointType.AnkleLeft, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.AnkleLeft, JointType.FootLeft, this.trackedPen);
+            //Right Leg
+            this.DrawBone(skeleton, dc, JointType.HipRight, JointType.KneeRight, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.KneeRight, JointType.AnkleRight, this.trackedPen);
+            this.DrawBone(skeleton, dc, JointType.AnkleRight, JointType.FootRight, this.trackedPen);
+            //Joints
+
+            foreach (Joint joint in skeleton.Joints)
+            {
+                Brush brush = null;
+                if (joint.TrackingState == JointTrackingState.Tracked)
+                {
+                    brush = Brushes.Green;
+                }
+                else if (joint.TrackingState == JointTrackingState.Inferred)
+                {
+                    brush = Brushes.Yellow;
+                }
+
+                if (brush != null)
+                {
+                    dc.DrawEllipse(brush, null, this.SkeletonPointToScreen(joint.Position), 10, 10);
+                }
+            }
+
+        }
+
+        private void DrawBone(Skeleton skeleton, DrawingContext dc, JointType jointType1, JointType jointType2, Pen drawPen)
+        {
+            Joint startJoint = skeleton.Joints[jointType1];
+            Joint endJoint = skeleton.Joints[jointType2];
+
+            // return if either joint isn't being tracked
+            if (startJoint.TrackingState == JointTrackingState.NotTracked || endJoint.TrackingState == JointTrackingState.NotTracked)
+                return;
+
+            // return if both joints are being inferred
+            if (startJoint.TrackingState == JointTrackingState.Inferred && endJoint.TrackingState == JointTrackingState.Inferred)
+                return;
+
+            if (!(startJoint.TrackingState == JointTrackingState.Tracked && endJoint.TrackingState == JointTrackingState.Tracked))
+                drawPen = this.inferredPen;
+
+            dc.DrawLine(drawPen, this.SkeletonPointToScreen(startJoint.Position), this.SkeletonPointToScreen(endJoint.Position));
         }
 
         /// <summary>
@@ -210,7 +310,9 @@ namespace DiskOfDemiseWPF
             if (this.sensor != null)
             {
                 this.sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
-                this.sensor.ColorFrameReady += new EventHandler<ColorImageFrameReadyEventArgs>(sensorColorFrameReady);
+                this.colorPixels = new byte[this.sensor.ColorStream.FramePixelDataLength];
+                this.bitmap = new WriteableBitmap(this.sensor.ColorStream.FrameWidth, this.sensor.ColorStream.FrameHeight, 96.0, 96.0, PixelFormats.Bgr32, null);
+                this.sensor.AllFramesReady += new EventHandler<AllFramesReadyEventArgs>(sensorAllFramesReady);
                 this.sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
                 this.sensor.SkeletonStream.Enable();
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
@@ -408,8 +510,11 @@ namespace DiskOfDemiseWPF
             /// kinect initializations
             initKinect();
             initializeKSpeech();
-            //initializeSpeech();
             initGestureService();
+            /// color stream things
+            this.drawingGroup = new DrawingGroup();
+            this.imageSource = new DrawingImage(this.drawingGroup);
+            kinectColorImage.Source = this.imageSource;
 
             /// ???
             InitializeComponent();
