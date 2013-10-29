@@ -41,7 +41,8 @@ namespace DiskOfDemiseWPF
         private Storyboard myStoryboard;
         private DiskOfDemiseGame d1;
         private double angle = 0;
-        
+        private Boolean inSpeech = false;
+
         /// <summary>
         /// kinect global variables
         /// </summary>
@@ -72,30 +73,45 @@ namespace DiskOfDemiseWPF
         /// <param name="e"></param>
         private void WhenGestureRecognized(object sender, GestureEventArgs e)
         {
+            //audioThread = new Thread(startAudioListening);
+            //audioThread.Start();
+            //initializeSpeech();
+            //startAudioListening();
+
             /// disable gesture service
-             GestureServiceOff();
+            // GestureServiceOff();
             /// output gesture type to console
             mostRecentGesture = e.gestureType;
             System.Console.Write(e.gestureType + "\n");
             /// MessageBox.Show(e.gestureType);
-            /// spin wheel
-            if (e.gestureType == "swipe_left" || e.gestureType == "swipe_right" ||
-                e.gestureType == "kick_left" || e.gestureType == "kick_right")
+            /// 
+            if (!inSpeech)
             {
-                double randomDouble; ;
-                Random random = new Random();
-                randomDouble = 180.00 + random.NextDouble() * 720;
-                this.findBodyPart(randomDouble);
-                if (e.gestureType == "swipe_left" || e.gestureType == "kick_left")
+                /// spin wheel
+                if (e.gestureType == "swipe_left" || e.gestureType == "swipe_right" ||
+                    e.gestureType == "kick_left" || e.gestureType == "kick_right")
                 {
-                    randomDouble *= -1;
+                    double randomDouble; ;
+                    Random random = new Random();
+                    randomDouble = 180.00 + random.NextDouble() * 720;
+                    this.findBodyPart(randomDouble);
+                    if (e.gestureType == "swipe_left" || e.gestureType == "kick_left")
+                    {
+                        randomDouble *= -1;
+                    }
+                    this.spinWheel(randomDouble);
+                    initializeSpeech();
+                    startAudioListening();
                 }
-                this.spinWheel(randomDouble);
             }
-            if (e.gestureType == "raise_hand_right")
+            else
             {
-                armConfirm = 1;
+                if (e.gestureType == "raise_hand_right")
+                {
+                    armConfirm = 1;
+                }
             }
+
         }
 
         private void findBodyPart(Double number)
@@ -207,6 +223,7 @@ namespace DiskOfDemiseWPF
 
         private void initializeKSpeech()
         {
+
             KinectAudioSource source = sensor.AudioSource;
 
             source.EchoCancellationMode = EchoCancellationMode.None;
@@ -216,6 +233,8 @@ namespace DiskOfDemiseWPF
 
         private void initializeSpeech()
         {
+            inSpeech = true;
+            System.Console.Write("Initialize speech");
             SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
             sre = new SpeechRecognitionEngine(ri.Id);
 
@@ -234,6 +253,22 @@ namespace DiskOfDemiseWPF
             //sre.SetInputToDefaultAudioDevice();
             sre.LoadGrammarAsync(grammar);
         }
+
+
+        public void StopKSpeech()
+        {
+            if (audioSource != null)
+            {
+                audioSource.Stop();
+                sre.RecognizeAsyncCancel();
+                sre.RecognizeAsyncStop();
+
+               // audioSource.SoundSourceAngleChanged -= this.SoundSourceChanged;
+               // sre.SpeechRecognized -= sre.SpeechRecognized;
+               // sre.SpeechRecognitionRejected -= this.SreSpeechRecognitionRejected;
+            }
+        }
+
 
         private void startAudioListening()
         {
@@ -315,7 +350,7 @@ namespace DiskOfDemiseWPF
             char letterUserGuessed = e.Result.Text[6];
             confirmLetter.Text = "Did you say: " + letterUserGuessed + "?";
             Console.WriteLine("Did you say: " + letterUserGuessed + "?");
-            GestureServiceOn();
+            //GestureServiceOn();
             Task.Factory.StartNew(() =>
             {
                 Thread.Sleep(5000);
@@ -334,7 +369,8 @@ namespace DiskOfDemiseWPF
                             confirmLetter.Text = "You guessed the letter: " + letterUserGuessed;
                         }
                     }));
-                    
+                    StopKSpeech();
+                    //audioThread.Abort();
                     reset();
                     guessedLetters += " " + letterUserGuessed;
                 }
@@ -354,7 +390,7 @@ namespace DiskOfDemiseWPF
                     Console.WriteLine("Please try again.");
                 }
                 armConfirm = 0;
-                GestureServiceOff();
+                //GestureServiceOff();
                 //confirmLetter.Text = "";
             });
         }
@@ -372,11 +408,9 @@ namespace DiskOfDemiseWPF
             /// kinect initializations
             initKinect();
             initializeKSpeech();
-            initializeSpeech();
+            //initializeSpeech();
             initGestureService();
 
-            audioThread = new Thread(startAudioListening);
-            audioThread.Start();
             /// ???
             InitializeComponent();
             reset();
@@ -405,7 +439,8 @@ namespace DiskOfDemiseWPF
             ///clearBodyParts();
             ///colorBodyParts(d1.displayName());
             ///displayBodyParts();
-            GestureServiceOn();
+            //GestureServiceOn();
+            inSpeech = false;
         }
 
         public void spinWheel(double addedAngle)
@@ -498,106 +533,3 @@ namespace DiskOfDemiseWPF
         }
     }
 }
-
-/*
-namespace DiskOfDemise
-{
-    public partial class Form1 : Form
-    {
-        DiskOfDemise d1;
-        Bitmap bitmap1;
-
-        public Form1()
-        {
-            InitializeComponent();
-            d1 = new DiskOfDemise();
-            bitmap1 = (Bitmap)Bitmap.FromFile(@"C:\Users\Kim\Documents\GitHub\NUI\DiskOfDemise\DiskOfDemise\Resources\RedHead.png");
-            wheelImage.Image = bitmap1;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            d1.checkLetterInPhrase('H');
-            d1.checkLetterInPhrase('O');
-            spinWheel();
-            spinWheel();
-            clearBodyParts();
-            phraseLabel.Text = d1.displayPhrase();
-            nameLabel.Text = "Player " + d1.displayName();
-            displayBodyParts();
-            colorBodyParts(d1.displayName());
-        }
-
-        private void spinWheel()
-        {
-            bitmap1.RotateFlip(RotateFlipType.Rotate90FlipNone);
-            wheelImage.Image = bitmap1;
-            wheelImage.Invalidate();
-        }
-
-        private void colorBodyParts(String color)
-        {
-            Color bodyColor = Color.Black;
-            if (color.Equals("Red"))
-            {
-                bodyColor = Color.Red;
-            }
-            else if (color.Equals("Yellow"))
-            {
-                bodyColor = Color.Yellow;
-            }
-            else if (color.Equals("Green"))
-            {
-                bodyColor = Color.Green;
-            }
-            else if (color.Equals("Blue"))
-            {
-                bodyColor = Color.Blue;
-            }
-            headShape.BorderColor = bodyColor;
-            rightArmShape.BorderColor = bodyColor;
-            leftArmShape.BorderColor = bodyColor;
-            rightLegShape.BorderColor = bodyColor;
-            leftLegShape.BorderColor = bodyColor;
-            bodyShape.BorderColor = bodyColor;
-        }
-
-        private void clearBodyParts()
-        {
-            headShape.Visible = false;
-            rightArmShape.Visible = false;
-            leftArmShape.Visible = false;
-            rightLegShape.Visible = false;
-            leftLegShape.Visible = false;
-        }
- 
-        private void displayBodyParts()
-        {
-            ArrayList temp = d1.returnBodyParts();
-            for (int i = 0; i < temp.Count; i++)
-            {
-                if (temp[i].Equals("Head"))
-                {
-                    headShape.Visible = true;
-                }
-                if (temp[i].Equals("RightArm"))
-                {
-                    rightArmShape.Visible = true;
-                }
-                if (temp[i].Equals("LeftArm"))
-                {
-                    leftArmShape.Visible = true;
-                }
-                if (temp[i].Equals("RightLeg"))
-                {
-                    rightLegShape.Visible = true;
-                }
-                if (temp[i].Equals("LeftLeg"))
-                {
-                    leftLegShape.Visible = true;
-                }
-            }
-        }
-    }
-}
-*/
