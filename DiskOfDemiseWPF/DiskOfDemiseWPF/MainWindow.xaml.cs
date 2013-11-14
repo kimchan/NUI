@@ -340,7 +340,7 @@ namespace DiskOfDemiseWPF
             SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
             sre = new SpeechRecognitionEngine(ri.Id);
 
-            Choices letters = new Choices(new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
+            Choices letters = new Choices(new string[] { "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z" });
 
             GrammarBuilder gb = new GrammarBuilder("Guess");
             gb.Append(letters);

@@ -64,6 +64,26 @@ namespace DiskOfDemiseWPF
                 {
                     displayedPhrase.Append(" ");
                 }
+                else if (phraseToGuess[i] == 'A')
+                {
+                    displayedPhrase.Append("A");
+                }
+                else if (phraseToGuess[i] == 'E')
+                {
+                    displayedPhrase.Append("E");
+                }
+                else if (phraseToGuess[i] == 'I')
+                {
+                    displayedPhrase.Append("I");
+                }
+                else if (phraseToGuess[i] == 'O')
+                {
+                    displayedPhrase.Append("O");
+                }
+                else if (phraseToGuess[i] == 'U')
+                {
+                    displayedPhrase.Append("U");
+                }
                 else
                 {
                     displayedPhrase.Append("_");
