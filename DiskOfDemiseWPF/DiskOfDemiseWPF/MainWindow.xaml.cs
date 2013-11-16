@@ -42,6 +42,7 @@ namespace DiskOfDemiseWPF
         private DiskOfDemiseGame d1;
         private double angle = 0;
         private Boolean inSpeech = false;
+        private Window1 window1;
 
         /// <summary>
         /// kinect global variables
@@ -67,7 +68,7 @@ namespace DiskOfDemiseWPF
         private SS.Recognition.RecognizerInfo priRI;
         private KinectAudioSource audioSource;
         private SpeechRecognitionEngine sre;
-        private Thread audioThread;
+        //private Thread audioThread;
         
         private int armConfirm = 0;
 
@@ -340,7 +341,7 @@ namespace DiskOfDemiseWPF
             SS.Recognition.RecognizerInfo ri = SS.Recognition.SpeechRecognitionEngine.InstalledRecognizers().FirstOrDefault();
             sre = new SpeechRecognitionEngine(ri.Id);
 
-            Choices letters = new Choices(new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" });
+            Choices letters = new Choices(new string[] { "B", "C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z" });
 
             GrammarBuilder gb = new GrammarBuilder("Guess");
             gb.Append(letters);
@@ -452,6 +453,7 @@ namespace DiskOfDemiseWPF
             char letterUserGuessed = e.Result.Text[6];
             confirmLetter.Text = "Did you say: " + letterUserGuessed + "?";
             Console.WriteLine("Did you say: " + letterUserGuessed + "?");
+            window1.showInstruction("Did you say: "+letterUserGuessed+"?");
             //GestureServiceOn();
             Task.Factory.StartNew(() =>
             {
@@ -505,6 +507,8 @@ namespace DiskOfDemiseWPF
         public MainWindow()
         {
             InitializeComponent();
+            window1 = new Window1();
+            window1.Show();
             /// new (single player) game
             d1 = new DiskOfDemiseGame();
             /// kinect initializations
